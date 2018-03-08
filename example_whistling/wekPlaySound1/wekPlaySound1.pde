@@ -36,6 +36,8 @@ void setup() {
 void draw() {
   background(0);
   textSize(24);
+
+  //displaying the text according to the data received from wekinator
   if (aWhistling) {
     text("Aaron Whistling!", width/2 - offset, height/2);
   } else if (iWhistling) {
@@ -62,8 +64,12 @@ void oscEvent(OscMessage theOscMessage) {
   println(counter + " /wek/outputs received " + theOscMessage);
 
   if (theOscMessage.checkTypetag("f")) {
+
+    //unpacking the 'classifier' value
     float firstValue = theOscMessage.get(0).floatValue();  
     println(" values: "+firstValue);
+
+    //setting flags for who is printing and who is not
     if (firstValue == 2) {
       iWhistling = true;
     } else if (firstValue == 3) {
@@ -73,5 +79,7 @@ void oscEvent(OscMessage theOscMessage) {
       aWhistling = false;
     }
   }
+
+  //counter to for console debugging purpose to see the progress
   counter++;
 }
